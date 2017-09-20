@@ -1,4 +1,4 @@
-Sonyflake
+LightGrandflake
 =========
 
 [![GoDoc](https://godoc.org/github.com/sony/sonyflake?status.svg)](http://godoc.org/github.com/sony/sonyflake)
@@ -6,8 +6,8 @@ Sonyflake
 [![Coverage Status](https://coveralls.io/repos/sony/sonyflake/badge.svg?branch=master&service=github)](https://coveralls.io/github/sony/sonyflake?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/sony/sonyflake)](https://goreportcard.com/report/github.com/sony/sonyflake)
 
-Sonyflake is a distributed unique ID generator inspired by [Twitter's Snowflake](https://blog.twitter.com/2010/announcing-snowflake).  
-A Sonyflake ID is composed of
+LightGrandflake is a distributed unique ID generator inspired by [Twitter's Snowflake](https://blog.twitter.com/2010/announcing-snowflake).  
+A LightGrandflake ID is composed of
 
     39 bits for time in units of 10 msec
      8 bits for a sequence number
@@ -23,13 +23,13 @@ go get github.com/sony/sonyflake
 Usage
 -----
 
-The function NewSonyflake creates a new Sonyflake instance.
+The function NewLightGrandflake creates a new LightGrandflake instance.
 
 ```go
 func NewSonyflake(st Settings) *Sonyflake
 ```
 
-You can configure Sonyflake by the struct Settings:
+You can configure LightGrandflake by the struct Settings:
 
 ```go
 type Settings struct {
@@ -39,17 +39,17 @@ type Settings struct {
 }
 ```
 
-- StartTime is the time since which the Sonyflake time is defined as the elapsed time.
-  If StartTime is 0, the start time of the Sonyflake is set to "2014-09-01 00:00:00 +0000 UTC".
-  If StartTime is ahead of the current time, Sonyflake is not created.
+- StartTime is the time since which the LightGrandflake time is defined as the elapsed time.
+  If StartTime is 0, the start time of the LightGrandflake is set to "2014-09-01 00:00:00 +0000 UTC".
+  If StartTime is ahead of the current time, LightGrandflake is not created.
 
-- MachineID returns the unique ID of the Sonyflake instance.
-  If MachineID returns an error, Sonyflake is not created.
+- MachineID returns the unique ID of the LightGrandflake instance.
+  If MachineID returns an error, LightGrandflake is not created.
   If MachineID is nil, default MachineID is used.
   Default MachineID returns the lower 16 bits of the private IP address.
 
 - CheckMachineID validates the uniqueness of the machine ID.
-  If CheckMachineID returns false, Sonyflake is not created.
+  If CheckMachineID returns false, LightGrandflake is not created.
   If CheckMachineID is nil, no validation is done.
 
 In order to get a new unique ID, you just have to call the method NextID.
@@ -59,12 +59,12 @@ func (sf *Sonyflake) NextID() (uint64, error)
 ```
 
 NextID can continue to generate IDs for about 174 years from StartTime.
-But after the Sonyflake time is over the limit, NextID returns an error.
+But after the LightGrandflake time is over the limit, NextID returns an error.
 
 AWS VPC and Docker
 ------------------
 
-The [awsutil](https://github.com/sony/sonyflake/blob/master/awsutil) package provides
+The [awsutil](https://github.com/LightGrand/lightgrandflake/blob/master/awsutil) package provides
 the function AmazonEC2MachineID that returns the lower 16-bit private IP address of the Amazon EC2 instance.
 It also works correctly on Docker
 by retrieving [instance metadata](http://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/ec2-instance-metadata.html).
@@ -75,11 +75,11 @@ So if each EC2 instance has a unique private IP address in AWS VPC,
 the lower 16 bits of the address is also unique.
 In this common case, you can use AmazonEC2MachineID as Settings.MachineID.
 
-See [example](https://github.com/sony/sonyflake/blob/master/example) that runs Sonyflake on AWS Elastic Beanstalk.
+See [example](https://github.com/LightGrand/lightgrandflake/blob/master/example) that runs LightGrandflake on AWS Elastic Beanstalk.
 
 License
 -------
 
 The MIT License (MIT)
 
-See [LICENSE](https://github.com/sony/sonyflake/blob/master/LICENSE) for details.
+See [LICENSE](https://github.com/LightGrand/lightgrandflake/blob/master/LICENSE) for details.
